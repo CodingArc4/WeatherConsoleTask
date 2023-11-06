@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WeatherConsoleTask.Repository;
+using WeatherConsoleTask.ServiceProvider;
 
 namespace WeatherConsoleTask
 {
@@ -15,17 +16,13 @@ namespace WeatherConsoleTask
 
         static void Main(string[] args)
         {
-            var serviceProvider = new ServiceCollection()
-                .AddSingleton<IConfiguration>(new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build())
-                .AddScoped<IWeatherService, WeatherService>()
-                .AddScoped<HttpClient>() 
-                .AddScoped<Program>()
-                .BuildServiceProvider();
+            var collection = new ServiceCollection();
+            var service = new Provider();
+            service.Services(collection);
 
-            var program = serviceProvider.GetRequiredService<Program>();
+            var provider = collection.BuildServiceProvider();
+
+            var program = provider.GetRequiredService<Program>();
 
             program.Run();
         }
