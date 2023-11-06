@@ -1,11 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WeatherConsoleTask.Data;
 
 namespace WeatherConsoleTask.Repository
 {
@@ -41,16 +35,16 @@ namespace WeatherConsoleTask.Repository
                 var temperature = main["temp"];
                 var description = data["weather"][0]["description"];
 
-                return new WeatherData
-                {
-                    City = city,
-                    CountryCode = countryCode,
-                    Temperature = (double)temperature,
-                    Description = Convert.ToString(description)
-                };
-            }
+                string result = $"\nWeather in {city}{(string.IsNullOrWhiteSpace(countryCode) ? "" : $", {countryCode}")}:\n";
+                result += $"Temperature: {temperature}°C\n";
+                result += $"Description: {description}\n";
 
-            return null;
+                return result;
+            }
+            else
+            {
+                return $"Error: {data["message"]}";
+            }
         }
     }
 }
