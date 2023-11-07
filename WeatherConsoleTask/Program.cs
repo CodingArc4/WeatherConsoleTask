@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using WeatherConsoleTask.Repository;
 using WeatherConsoleTask.ServiceProvider;
 
@@ -24,10 +23,10 @@ namespace WeatherConsoleTask
 
             var program = provider.GetRequiredService<Program>();
 
-            program.Run();
+            program.Weather();
         }
 
-        private void Run()
+        private void Weather()
         {
             Console.Write("Enter City Name: ");
             string cityname = Console.ReadLine().Trim();
